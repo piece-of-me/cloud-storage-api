@@ -1,11 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\SpaceController;
+use App\Http\Controllers\PublicDownloadController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -42,4 +45,10 @@ Route::middleware('jwt.auth')->group(static function () {
         Route::get('/', [SpaceController::class, 'total']);
         Route::get('/{folder}', [SpaceController::class, 'folder']);
     });
+});
+
+Route::get('public', PublicDownloadController::class)->name('public.images');
+
+Route::fallback(static function() {
+    throw new HttpResponseException(response()->json([], 404));
 });

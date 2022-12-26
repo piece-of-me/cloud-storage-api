@@ -4,7 +4,7 @@ namespace App\Http\Requests\File;
 
 use App\Rules\MaximumVolume;
 use App\Rules\NotMimes;
-use App\Rules\WithoutSubfolders;
+use App\Rules\WithoutSubFolders;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -30,7 +30,7 @@ class UploadRequest extends FormRequest
     {
         return [
             'file' => ['required', 'file', 'max:20971520', new NotMimes('php'), new MaximumVolume],
-            'folder' => ['string', new WithoutSubfolders],
+            'folder' => ['string', new WithoutSubFolders],
             'public_link' => 'boolean',
             'life' => 'integer',
         ];

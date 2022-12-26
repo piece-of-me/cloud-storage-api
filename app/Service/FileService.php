@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Jobs\DeleteFile;
 use App\Models\File;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\DB;
@@ -39,6 +40,10 @@ class FileService
             }
 
             $newFile = File::create($fileInfo);
+
+            if (isset($data['life'])) {
+                DeleteFile::dispatch($newFile)->delay($data['life']);
+            }
 
             Db::commit();
         } catch (\Exception $exception) {
