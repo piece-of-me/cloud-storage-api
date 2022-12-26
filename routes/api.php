@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\SpaceController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,5 +36,10 @@ Route::middleware('jwt.auth')->group(static function () {
         Route::get('/download/{file}', [FileController::class, 'download']);
         Route::patch('/{file}', [FileController::class, 'update']);
         Route::delete('/{file}', [FileController::class, 'delete']);
+    });
+
+    Route::prefix('space')->group(static function() {
+        Route::get('/', [SpaceController::class, 'total']);
+        Route::get('/{folder}', [SpaceController::class, 'folder']);
     });
 });
