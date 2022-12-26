@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterRequest extends FormRequest
+class UserRequest extends FormRequest
 {
-
     protected $stopOnFirstFailure = false;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -17,7 +17,7 @@ class RegisterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user() !== null;
     }
 
     /**
@@ -28,28 +28,28 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'login' => 'required|string|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'string|min:8',
             'email' => 'string|email|unique:users',
             'phone' => 'string',
             'name' => 'string',
             'surname' => 'string',
-            'birthdate' => 'date',
+            'birthdate' => 'date|before:now-1day',
         ];
     }
 
-    public function messages(): array
+    public function messages()
     {
         return [
-            'login.required' => 'Поле "login" обязательно',
-            'login.string' => 'Поле "login" должно быть строкой',
-            'login.unique' => 'Данный логин уже используется',
-            'password.required' => 'Поле "password" обязательно',
             'password.string' => 'Поле "password" должно быть строкой',
             'password.min' => 'Поле "password" должно быть минимум 8 символов',
+            'email.string' => 'Поле "email" должно быть строкой',
             'email.email' => 'Поле "email" должно содержать корректный e-mail адрес',
             'email.unique' => 'Данный e-mail уже используется',
+            'phone.string' => 'Поле "phone" должно быть строкой',
+            'name.string' => 'Поле "name" должно быть строкой',
+            'surname.string' => 'Поле "surname" должно быть строкой',
             'birthdate.date' => 'Поле "birthdate" должно содержать корректную дату',
+            'birthdate.before' => 'Дата в поле "birthdate" должна быть меньше сегодняшней даты',
         ];
     }
 
