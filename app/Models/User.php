@@ -20,6 +20,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property null|string phone
  * @property null|string name
  * @property null|string surname
+ *
+ * @property created_at
+ * @property updated_at
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -65,5 +68,15 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    /**
+     * Коллекция файлов, добавленных пользователем
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function files()
+    {
+        return $this->hasMany(File::class, 'user_id', 'id');
     }
 }
