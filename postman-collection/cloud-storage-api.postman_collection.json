@@ -1,0 +1,949 @@
+{
+	"info": {
+		"_postman_id": "c1a4d8c2-aeca-4177-b4af-3b48d351a94c",
+		"name": "cloud-storage-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21296749"
+	},
+	"item": [
+		{
+			"name": "Пользователь 1",
+			"item": [
+				{
+					"name": "Авторизация",
+					"item": [
+						{
+							"name": "Регистрация",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.collectionVariables.set('bearerTokenUser1', response.access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"login\": \"user1\",\r\n    \"password\": \"user1_password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/auth/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Авторизация",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.collectionVariables.set('bearerTokenUser1', response.access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"login\": \"user1\",\r\n    \"password\": \"user1_password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/auth/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Выход",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bearerTokenUser1', '');"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/auth/logout",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Для авторизованных пользователей",
+					"item": [
+						{
+							"name": "Пользователи",
+							"item": [
+								{
+									"name": "Получение информации",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/user/",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												""
+											],
+											"query": [
+												{
+													"key": "hash",
+													"value": "hsyb2",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Обновление информации",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\": \"new_user1_password\",\r\n    \"email\": \"new_user1@email.email\",\r\n    \"phone\": \"612-350-01\",\r\n    \"name\": \"Albert\",\r\n    \"surname\": \"Braslav\",\r\n    \"birthdate\": \"12.02.2008\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/user/",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Файлы",
+							"item": [
+								{
+									"name": "Список загруженных файлов",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/files/",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"files",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Загрузить файл",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "file",
+													"description": "Файл",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "life",
+													"value": "30",
+													"description": "Промежуток, спустя который файл будет удален (в секундах)",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "public_link",
+													"value": "true",
+													"description": "Ключ для генерации публичной ссылки",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "folder",
+													"value": "tree",
+													"description": "Папка",
+													"type": "text",
+													"disabled": true
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/api/files/upload",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"files",
+												"upload"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Скачать файл",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/files/download/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"files",
+												"download",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Обновить сведения о файле",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"public_link\": false,\r\n    \"name\": \"user1_file_new_name\",\r\n    \"folder\": \"user1_folder_new_name\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/files/22",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"files",
+												"22"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Удалить",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/files/asdasd/asdasd",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"files",
+												"asdasd",
+												"asdasd"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Пространство",
+							"item": [
+								{
+									"name": "Общее",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/space/",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"space",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Папка",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/space/images",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"space",
+												"images"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Публичная ссылка на файл",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/public?image=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"public"
+							],
+							"query": [
+								{
+									"key": "image",
+									"value": "",
+									"description": "hash изображения"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{bearerTokenUser1}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Пользователь 2",
+			"item": [
+				{
+					"name": "Авторизация",
+					"item": [
+						{
+							"name": "Регистрация с указанием дополнительных параметров",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.collectionVariables.set('bearerTokenUser2', response.access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"login\": \"user2\",\r\n    \"password\": \"user2_password\",\r\n    \"email\": \"user2@email.email\",\r\n    \"phone\": \"85-43-12\",\r\n    \"name\": \"Andy\",\r\n    \"surname\": \"Miller\",\r\n    \"birthdate\": \"15.05.2001\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/auth/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Авторизация",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let response = pm.response.json();\r",
+											"pm.collectionVariables.set('bearerTokenUser2', response.access_token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"login\": \"user2\",\r\n    \"password\": \"user2_password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/auth/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Выход",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.collectionVariables.set('bearerTokenUser2', '');"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/auth/logout",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Для авторизованных пользователей",
+					"item": [
+						{
+							"name": "Пользователи",
+							"item": [
+								{
+									"name": "Получение информации",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/user/",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Обновление информации",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"password\": \"new_user2_password\",\r\n    \"email\": \"new_user2@email.email\",\r\n    \"phone\": \"402-115-268\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/user/",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"user",
+												""
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Файлы",
+							"item": [
+								{
+									"name": "Список загруженных файлов",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/files/",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"files",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Загрузить файл",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "file",
+													"description": "Файл",
+													"type": "file",
+													"src": []
+												},
+												{
+													"key": "life",
+													"value": "15",
+													"description": "Промежуток, спустя который файл будет удален (в секундах)",
+													"type": "text",
+													"disabled": true
+												},
+												{
+													"key": "public_link",
+													"value": "1",
+													"description": "Ключ для генерации публичной ссылки",
+													"type": "text"
+												},
+												{
+													"key": "folder",
+													"value": "user2_folder",
+													"description": "Папка",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url}}/api/files/upload",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"files",
+												"upload"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Скачать файл",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/files/download/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"files",
+												"download",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Обновить сведения о файле",
+									"request": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"public_link\": true,\r\n    \"name\": \"user2_file_new_name\",\r\n    \"folder\": \"user2_folder_new_name\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/api/files/1",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"files",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Удалить",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/files/asdasd/asdasd",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"files",
+												"asdasd",
+												"asdasd"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Пространство",
+							"item": [
+								{
+									"name": "Общее",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/space/",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"space",
+												""
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Папка",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/space/user2_folder",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"space",
+												"user2_folder"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Публичная ссылка на файл",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/public?image=",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"public"
+							],
+							"query": [
+								{
+									"key": "image",
+									"value": "",
+									"description": "hash изображения"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "{{bearerTokenUser2}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({",
+					"    key: \"Accept\",",
+					"    value: \"application/json\"",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost",
+			"type": "string"
+		},
+		{
+			"key": "bearerTokenUser1",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "bearerTokenUser2",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
