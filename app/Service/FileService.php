@@ -69,9 +69,12 @@ class FileService
             $oldPath = $file->path . $file->name;
             $newPath = preg_replace('/(?<=\/)(\w+)(?=\.)/', $data['name'], $oldPath);
             Storage::disk('public')->move($oldPath, $newPath);
+            if (sizeof(Storage::disk('public')->allFiles($file->path))) {
+                Storage::disk('public')->deleteDirectory($file->path);
+            }
 
-            if (isset($data['public_link']) && $data['public_link']) {
-                $data['public_link'] = 'public link';
+            if (isset($data['public_link'])) {
+                $data['public_link'] = $data['public_link'] ? route('public.images') . '?image=' . md5($newPath) : null;
             }
 
             $pathInfo = pathinfo($newPath);

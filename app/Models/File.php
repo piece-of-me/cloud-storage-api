@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string path
  * @property int size
  * @property null|string public_path
- * @property created_at
- * @property updated_at
+ * @property \DateTime created_at
+ * @property \DateTime updated_at
  */
 class File extends Model
 {

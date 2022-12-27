@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -20,9 +21,10 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property null|string phone
  * @property null|string name
  * @property null|string surname
+ * @property \DateTime created_at
+ * @property \DateTime updated_at
  *
- * @property created_at
- * @property updated_at
+ * @property Collection files Коллекция файлов пользователя
  */
 class User extends Authenticatable implements JWTSubject
 {

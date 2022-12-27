@@ -93,6 +93,9 @@ class FileController extends Controller
     public function delete(File $file)
     {
         Storage::disk('public')->delete($file->path . $file->name);
+        if (sizeof(Storage::disk('public')->allFiles($file->path))) {
+            Storage::disk('public')->deleteDirectory($file->path);
+        }
         $file->delete();
         return response()->json();
     }

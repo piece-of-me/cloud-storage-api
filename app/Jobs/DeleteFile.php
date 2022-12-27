@@ -33,9 +33,12 @@ class DeleteFile implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
         Storage::disk('public')->delete($this->file->path . $this->file->name);
+        if (sizeof(Storage::disk('public')->allFiles($this->file->path))) {
+            Storage::disk('public')->deleteDirectory($this->file->path);
+        }
         $this->file->delete();
     }
 }

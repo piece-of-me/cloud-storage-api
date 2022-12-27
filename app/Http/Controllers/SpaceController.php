@@ -25,6 +25,7 @@ class SpaceController extends Controller
 
         return response()->json(['data' => [
             'list' => $files->map(fn($file) => [
+                'id' => $file->id,
                 'name' => $file->name,
                 'folder' => str_replace($root, '', $file->path),
                 'size' => $file->size,
@@ -50,6 +51,7 @@ class SpaceController extends Controller
         return response()->json(['data' => [
             'folder' => $folder,
             'list' => $files->map(fn($file) => [
+                'id' => $file->id,
                 'name' => $file->name,
                 'size' => $file->size,
             ]),
