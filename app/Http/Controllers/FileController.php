@@ -45,6 +45,12 @@ class FileController extends Controller
     /**
      * Загрузка файла
      *
+     * Ожидаемые данные:
+     * file (*) - Загружаемый файл
+     * life - Время хранения файла (секунды)
+     * public_link - Переключатель для генерации публичной ссылки
+     * folder - Папка для сохранения файла
+     *
      * @param UploadRequest $request
      * @return FileResource Информация о загруженном файле
      */
@@ -69,9 +75,10 @@ class FileController extends Controller
     /**
      * Обновление сведений о файле
      *
-     * Ожидаемые данные
+     * Ожидаемые данные:
      * name - Имя файла
      * public_link - Переключатель отображения публичной ссылки
+     * folder - Название папки
      *
      * @param UpdateRequest $request
      * @param File $file

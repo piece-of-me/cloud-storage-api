@@ -8,6 +8,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class FileService
 {
@@ -27,8 +28,7 @@ class FileService
             $userId = auth()->user()->id;
             $folder = '/user_' . $userId . (isset($data['folder']) ? '/' . $data['folder'] : '') . '/';
             $fileName = $file->getClientOriginalName();
-            $filePath = Storage::disk('public')->put('', $file, 'private');
-            Storage::disk('public')->move($filePath, $folder . $fileName);
+            Storage::disk('public')->putFileAs($folder, $file, $fileName, 'private');
             $fileInfo = [
                 'user_id' => $userId,
                 'name' => $fileName,
@@ -67,9 +67,28 @@ class FileService
             DB::beginTransaction();
 
             $oldPath = $file->path . $file->name;
-            $newPath = preg_replace('/(?<=\/)(\w+)(?=\.)/', $data['name'], $oldPath);
+            $oldPathArray = explode('/', $oldPath);
+            $newPath = '/' . $oldPathArray[1] . '/';
+
+            if (isset($data['folder'])) {
+                $newPath .= $data['folder'] . '/';
+                $data['path'] = $newPath;
+                unset($data['folder']);
+            } elseif (sizeof($oldPathArray) > 3) {
+                $newPath .= $oldPathArray[2] . '/';
+            }
+
+            $olFileName = array_pop($oldPathArray);
+            $newPath .= isset($data['name'])
+                ? preg_replace('/\w+(?=\.\w+$)/', $data['name'], $olFileName)
+                : $olFileName;
+
+            if (Storage::disk('public')->exists($newPath)) {
+                throw new FileException();
+            }
+
             Storage::disk('public')->move($oldPath, $newPath);
-            if (sizeof(Storage::disk('public')->allFiles($file->path))) {
+            if (Storage::disk('public')->allFiles($file->path) <= 0) {
                 Storage::disk('public')->deleteDirectory($file->path);
             }
 
@@ -82,6 +101,9 @@ class FileService
             $file->update($data);
 
             Db::commit();
+        } catch (FileException $fileException) {
+            DB::rollBack();
+            throw new HttpResponseException(response()->json(['message' => 'В этой папке уже существую такой файл'], 500));
         } catch (\Exception $exception) {
             DB::rollBack();
             Log::error('Ошибка загрузки файла - ' . $exception->getMessage());

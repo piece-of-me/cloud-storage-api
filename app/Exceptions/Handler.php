@@ -52,7 +52,8 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if (($request->ajax() && !$request->pjax()) || $request->wantsJson()) {
-            return new JsonResponse(['message' => $e->getMessage()], $e->getStatusCode());
+            $status = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : $e->getCode();
+            return new JsonResponse(['message' => $e->getMessage()], $status >= 1 ? $status : 500);
         }
         return parent::render($request, $e);
     }

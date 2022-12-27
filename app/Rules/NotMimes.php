@@ -33,7 +33,11 @@ class NotMimes implements Rule
      */
     public function passes($attribute, $value)
     {
-        return false === strpos($this->types, $value->extension());
+        $extension = $value->extension();
+        if (!isset($extension)) {
+            $extension = preg_replace('/^[\w+\.]+\.(?=\w+$)/', '', $value->getClientOriginalName());
+        }
+        return false === strpos($this->types, $extension);
     }
 
     /**

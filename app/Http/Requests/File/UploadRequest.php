@@ -4,6 +4,7 @@ namespace App\Http\Requests\File;
 
 use App\Rules\MaximumVolume;
 use App\Rules\NotMimes;
+use App\Rules\RewritingOnUpload;
 use App\Rules\WithoutSubFolders;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -29,7 +30,7 @@ class UploadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => ['required', 'file', 'max:20971520', new NotMimes('php'), new MaximumVolume],
+            'file' => ['required', 'file', 'max:20971520', new NotMimes('php'), new MaximumVolume, new RewritingOnUpload],
             'folder' => ['string', new WithoutSubFolders],
             'public_link' => 'boolean',
             'life' => 'integer',

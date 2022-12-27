@@ -21,5 +21,5 @@
 
 # Возможные проблемы
 
-* Если при выполнении команды `sail` будут появляться ошибки вида: `./.env: line 6: $'\r': command not found`, вы можете их исправить с помощью `dos2unix .env` и `dos2unex .env.example`, конвертировав файлы в Unix-формат.
+* Если при выполнении команды `sail` будут появляться ошибки вида: `./.env: line 6: $'\r': command not found`, вы можете их исправить с помощью `dos2unix .env` и `dos2unix .env.example`, конвертировав файлы в Unix-формат.
 * Если при выполнении `./vendor/bin/sail artisan migrate` миграции не выполняются (отображается сообщение `Nothing to migrate.`), выполните `./vendor/bin/sail artisan migrate:reset`, чтобы откатить все миграции и запустите `./vendor/bin/sail artisan migrate` заново.

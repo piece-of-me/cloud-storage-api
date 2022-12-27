@@ -26,8 +26,9 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string',
-            'public_link' => 'boolean',
+            'name' => 'string|required_without:public_link,folder',
+            'public_link' => 'boolean|required_without:name,folder',
+            'folder' => 'string|required_without:name,public_link',
         ];
     }
 
@@ -36,6 +37,10 @@ class UpdateRequest extends FormRequest
         return [
             'name.string' => 'Поле "name" должно быть строкой',
             'public_link.boolean' => 'Поле "public_link" должно иметь тип boolean',
+            'folder.string' => 'Поле "folder" должно быть строкой',
+            'name.required_without' => 'Необходимо указать хотя бы один атрибут',
+            'public_link.required_without' => 'Необходимо указать хотя бы один атрибут',
+            'folder.required_without' => 'Необходимо указать хотя бы один атрибут',
         ];
     }
 
