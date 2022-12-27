@@ -2,8 +2,10 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -52,8 +54,15 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if (($request->ajax() && !$request->pjax()) || $request->wantsJson()) {
+            if ($e instanceof UnauthorizedHttpException) {
+                return new JsonResponse(['message' => 'Unauthorized'], 401);
+            }
+            if ($e instanceof ModelNotFoundException) {
+                return new JsonResponse(['message' => 'Файла не существует'], 404);
+            }
+
             $status = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : $e->getCode();
-            return new JsonResponse(['message' => $e->getMessage()], $status >= 1 ? $status : 500);
+            return new JsonResponse(['message' => $e->getMessage()], $status !== 0 ? $status : 500);
         }
         return parent::render($request, $e);
     }

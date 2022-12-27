@@ -1,7 +1,7 @@
 <?php
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
@@ -50,5 +50,5 @@ Route::middleware('jwt.auth')->group(static function () {
 Route::get('public', PublicDownloadController::class)->name('public.images');
 
 Route::fallback(static function() {
-    throw new HttpResponseException(response()->json([], 404));
+    return new JsonResponse(['message' => 'Неизвестный метод'], 404);
 });

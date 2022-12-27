@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "c1a4d8c2-aeca-4177-b4af-3b48d351a94c",
+		"_postman_id": "77ff209e-24b8-429d-a867-29fb3b9b26bf",
 		"name": "cloud-storage-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21296749"
@@ -20,7 +20,9 @@
 									"script": {
 										"exec": [
 											"let response = pm.response.json();\r",
-											"pm.collectionVariables.set('bearerTokenUser1', response.access_token);"
+											"if (response.hasOwnProperty('access_token')) {\r",
+											"    pm.collectionVariables.set('bearerTokenUser1', response.access_token);\r",
+											"}"
 										],
 										"type": "text/javascript"
 									}
@@ -72,7 +74,9 @@
 									"script": {
 										"exec": [
 											"let response = pm.response.json();\r",
-											"pm.collectionVariables.set('bearerTokenUser1', response.access_token);"
+											"if (response.hasOwnProperty('access_token')) {\r",
+											"    pm.collectionVariables.set('bearerTokenUser1', response.access_token);\r",
+											"}"
 										],
 										"type": "text/javascript"
 									}
@@ -189,7 +193,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"password\": \"new_user1_password\",\r\n    \"email\": \"new_user1@email.email\",\r\n    \"phone\": \"612-350-01\",\r\n    \"name\": \"Albert\",\r\n    \"surname\": \"Braslav\",\r\n    \"birthdate\": \"12.02.2008\"\r\n}",
+											"raw": "{\r\n    \"email\": \"new_user1@email.email\",\r\n    \"phone\": \"612-350-01\",\r\n    \"name\": \"Albert\",\r\n    \"surname\": \"Braslav\",\r\n    \"birthdate\": \"12.02.2008\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -250,21 +254,21 @@
 												},
 												{
 													"key": "life",
-													"value": "30",
+													"value": "15",
 													"description": "Промежуток, спустя который файл будет удален (в секундах)",
 													"type": "text",
 													"disabled": true
 												},
 												{
 													"key": "public_link",
-													"value": "true",
+													"value": "1",
 													"description": "Ключ для генерации публичной ссылки",
 													"type": "text",
 													"disabled": true
 												},
 												{
 													"key": "folder",
-													"value": "tree",
+													"value": "folder",
 													"description": "Папка",
 													"type": "text",
 													"disabled": true
@@ -291,7 +295,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{url}}/api/files/download/1",
+											"raw": "{{url}}/api/files/download/{id файла}",
 											"host": [
 												"{{url}}"
 											],
@@ -299,7 +303,7 @@
 												"api",
 												"files",
 												"download",
-												"1"
+												"{id файла}"
 											]
 										}
 									},
@@ -320,14 +324,14 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/api/files/22",
+											"raw": "{{url}}/api/files/{id файла}",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
 												"api",
 												"files",
-												"22"
+												"{id файла}"
 											]
 										}
 									},
@@ -339,15 +343,14 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "{{url}}/api/files/asdasd/asdasd",
+											"raw": "{{url}}/api/files/{id файла}",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
 												"api",
 												"files",
-												"asdasd",
-												"asdasd"
+												"{id файла}"
 											]
 										}
 									},
@@ -383,14 +386,14 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{url}}/api/space/images",
+											"raw": "{{url}}/api/space/{имя папки}",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
 												"api",
 												"space",
-												"images"
+												"{имя папки}"
 											]
 										}
 									},
@@ -474,7 +477,9 @@
 									"script": {
 										"exec": [
 											"let response = pm.response.json();\r",
-											"pm.collectionVariables.set('bearerTokenUser2', response.access_token);"
+											"if (response.hasOwnProperty('access_token')) {\r",
+											"    pm.collectionVariables.set('bearerTokenUser2', response.access_token);\r",
+											"}"
 										],
 										"type": "text/javascript"
 									}
@@ -526,7 +531,9 @@
 									"script": {
 										"exec": [
 											"let response = pm.response.json();\r",
-											"pm.collectionVariables.set('bearerTokenUser2', response.access_token);"
+											"if (response.hasOwnProperty('access_token')) {\r",
+											"    pm.collectionVariables.set('bearerTokenUser2', response.access_token);\r",
+											"}"
 										],
 										"type": "text/javascript"
 									}
@@ -636,7 +643,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"password\": \"new_user2_password\",\r\n    \"email\": \"new_user2@email.email\",\r\n    \"phone\": \"402-115-268\"\r\n}",
+											"raw": "{\r\n    \"email\": \"new_user2@email.email\",\r\n    \"phone\": \"402-115-268\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -736,7 +743,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{url}}/api/files/download/1",
+											"raw": "{{url}}/api/files/download/{id файла}",
 											"host": [
 												"{{url}}"
 											],
@@ -744,7 +751,7 @@
 												"api",
 												"files",
 												"download",
-												"1"
+												"{id файла}"
 											]
 										}
 									},
@@ -765,14 +772,14 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/api/files/1",
+											"raw": "{{url}}/api/files/{id файла}",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
 												"api",
 												"files",
-												"1"
+												"{id файла}"
 											]
 										}
 									},
@@ -784,15 +791,14 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "{{url}}/api/files/asdasd/asdasd",
+											"raw": "{{url}}/api/files/{id файла}",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
 												"api",
 												"files",
-												"asdasd",
-												"asdasd"
+												"{id файла}"
 											]
 										}
 									},
@@ -828,14 +834,14 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{url}}/api/space/user2_folder",
+											"raw": "{{url}}/api/space/{имя папки}",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
 												"api",
 												"space",
-												"user2_folder"
+												"{имя папки}"
 											]
 										}
 									},
